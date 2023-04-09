@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.8)
 
 project ("CHIP-8-Emulator")
 
-add_executable(CHIP-8-Emulator "main.cpp")
+add_executable(CHIP-8-Emulator "main.cpp" "Chip8.hpp" "Chip8.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
 	set_property(TARGET CHIP-8-Emulator PROPERTY CXX_STANDARD 20)
