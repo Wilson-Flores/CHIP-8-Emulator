@@ -20,11 +20,50 @@ public:
 	uint32_t video[64 * 32]{}; // 64x32 Monochrome Display Memory
 	uint16_t opcode; // encodes an operation and relevant data into a number that a machine can read.
 
+	std::default_random_engine randGen;
+	std::uniform_int_distribution<uint8_t> randByte;
+
 	Chip8();
 	void LoadROM(char const* filename);
 
-	std::default_random_engine randGen;
-	std::uniform_int_distribution<uint8_t> randByte;
+
+
+	// CLS
+	void OP_00E0();
+
+	// RET
+	void OP_00EE();
+
+	// JP addr
+	void OP_1nnn();
+
+	// CALL addr
+	void OP_2nnn();
+
+	// 3xkk - SE Vx, byte
+	void OP_3xkk();
+
+	// 4xkk - SNE Vx, byte
+	void OP_4xkk();
+
+	// 5xy0 - SE Vx, Vy
+	void OP_5xy0();
+	
+	// 6xkk - LD Vx, byte
+	void OP_6xkk();
+
+	// 7xkk - ADD Vx, byte
+	void OP_7xkk();
+
+	// 8xy0 - LD Vx, Vy
+	void OP_8xy0();
+
+	// 8xy1 - OR Vx, Vy
+	void OP_8xy1();
+	
+
 };
+
+
 
 #endif
