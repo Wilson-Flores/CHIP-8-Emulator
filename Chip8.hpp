@@ -60,7 +60,18 @@ public:
 
 	// 8xy1 - OR Vx, Vy
 	void OP_8xy1();
+
+	// 8xy2 - AND Vx, Vy
+	void OP_8xy2();
 	
+	// 8xy3 - XOR Vx, Vy
+	void OP_8xy3();
+
+	// 8xy4 - ADD Vx, Yv
+	void OP_8xy4();
+
+	// 8xy5 - SUB Vx, Vy
+	void OP_8xy5();
 
 };
 
