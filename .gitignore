@@ -356,4 +356,4 @@ out
 build/
 
 # cmakesettings
-CMakeSettings.json
+/CMakeSettings.json
