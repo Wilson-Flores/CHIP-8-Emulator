@@ -354,3 +354,6 @@ out
 
 # build folder
 build/
+
+# cmakesettings
+CMakeSettings.json
