@@ -242,3 +242,15 @@ void Chip8::OP_8xy5(){
 	registers[Vx] -= registers[Vy];
 }
 
+
+void Chip8::OP_8xy6(){
+	// Set Vx = Vx SHR 1
+	// if least sig bit of Vx is 1, VF = 1
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+
+	// save LSB in VF
+	registers[0xF] = (registers[Vx] & 0x1u);
+
+	registers[Vx] >>= 1;
+}
+
