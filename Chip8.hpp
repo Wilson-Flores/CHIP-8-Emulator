@@ -76,6 +76,15 @@ public:
 	// 8xy6 - SHR vx
 	void OP_8xy6();
 
+	// 8xy7 - SUBN Vx, Vy
+	void OP_8xy7();
+
+	// 8xyE - SHL Vx {, Vy}
+	void OP_8xyE();
+
+	// 9xy0 - SNE Vx, Vy
+	void OP_9xy0();
+
 };
 
 
