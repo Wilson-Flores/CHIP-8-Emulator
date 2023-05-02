@@ -29,6 +29,7 @@ public:
 	void LoadROM(char const* filename);
 
 
+	// Instructions
 
 	// CLS
 	void OP_00E0();
@@ -98,6 +99,39 @@ public:
 
 	// Dxyn - DRW Vx, Vy, nibble
 	void OP_Dxyn();
+
+	// Ex9E - SKP Vx
+	void OP_Ex9E();
+
+	// ExA1 - SKNP Vx
+	void OP_ExA1();
+
+	// Fx07 - LD Vx, DT
+	void OP_Fx07();
+
+	// Fx0A - LD Vx, K
+	void OP_Fx0A();
+
+	// Fx15 - LD DT, Vx
+	void OP_Fx15();
+
+	// Fx18 - LD ST, Vx
+	void OP_Fx18();
+
+	// Fx1E - ADD I, Vx
+	void OP_Fx1E();
+
+	// Fx29 - LD F, Vx
+	void OP_Fx29();
+
+	// Fx33 - LD B, Vx
+	void OP_Fx33();
+
+	// Fx55 - LD [I], Vx
+	void OP_Fx55();
+
+	// Fx65 - LD Vx, [I]
+	void OP_Fx65();
 
 };
 
