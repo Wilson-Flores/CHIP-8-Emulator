@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <random>
 
+const unsigned int VIDEO_WIDTH = 64;
+const unsigned int VIDEO_HEIGHT = 32;
 
 class Chip8 {
 public:
@@ -17,7 +19,7 @@ public:
 	uint8_t delayTimer{}; // 8-bit Delay Timer
 	uint8_t soundTimer{}; // 8-bit Sound Timer
 	uint8_t keypad[16]{}; // 16 Input Keys
-	uint32_t video[64 * 32]{}; // 64x32 Monochrome Display Memory
+	uint32_t video[VIDEO_WIDTH * VIDEO_HEIGHT]{}; // 64x32 Monochrome Display Memory
 	uint16_t opcode; // encodes an operation and relevant data into a number that a machine can read.
 
 	std::default_random_engine randGen;
@@ -84,6 +86,18 @@ public:
 
 	// 9xy0 - SNE Vx, Vy
 	void OP_9xy0();
+
+	// Annn - LD I, addr
+	void OP_Annn();
+
+	// Bnnn - JP V0, addr
+	void OP_Bnnn();
+
+	// Cxkk - RND Vx, byte
+	void OP_Cxkk();
+
+	// Dxyn - DRW Vx, Vy, nibble
+	void OP_Dxyn();
 
 };
 
