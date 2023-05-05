@@ -7,18 +7,22 @@
 
 const unsigned int VIDEO_WIDTH = 64;
 const unsigned int VIDEO_HEIGHT = 32;
+const unsigned int REGISTER_COUNT = 16;
+const unsigned int MEMORY_SIZE = 4096;
+const unsigned int STACK_LEVELS = 16;
+const unsigned int KEY_COUNT = 16;
 
 class Chip8 {
 public:
-	uint8_t registers[16]{}; // 16 8-bit Registers
-	uint8_t memory[4096]{}; // 4K Bytes of Memory
+	uint8_t registers[REGISTER_COUNT]{}; // 16 8-bit Registers
+	uint8_t memory[MEMORY_SIZE]{}; // 4K Bytes of Memory
 	uint16_t index{}; // 16-bit Index Register
 	uint16_t pc{}; // 16-bit Program Counter
-	uint16_t stack[16]{}; // 16-level Stack (It holds 16 different PCs)
+	uint16_t stack[STACK_LEVELS]{}; // 16-level Stack (It holds 16 different PCs)
 	uint8_t sp{}; // 8-bit Stack Pointer
 	uint8_t delayTimer{}; // 8-bit Delay Timer
 	uint8_t soundTimer{}; // 8-bit Sound Timer
-	uint8_t keypad[16]{}; // 16 Input Keys
+	uint8_t keypad[KEY_COUNT]{}; // 16 Input Keys
 	uint32_t video[VIDEO_WIDTH * VIDEO_HEIGHT]{}; // 64x32 Monochrome Display Memory
 	uint16_t opcode; // encodes an operation and relevant data into a number that a machine can read.
 
@@ -28,8 +32,26 @@ public:
 	Chip8();
 	void LoadROM(char const* filename);
 
+	// function pointer tables with same first digits
+	void Table0();
+	void Table8();
+	void TableE();
+	void TableF();
+
+	// create new type 'Chip8Func' 
+	typedef void (Chip8::*Chip8Func)();
+	Chip8Func table[0xF +1];
+	Chip8Func table0[0xE +1];
+	Chip8Func table8[0xE +1];
+	Chip8Func tableE[0xE +1];
+	Chip8Func tableF[0x65 +1];
+
+
 
 	// Instructions
+
+	// Do nothing
+	void OP_NULL();
 
 	// CLS
 	void OP_00E0();
