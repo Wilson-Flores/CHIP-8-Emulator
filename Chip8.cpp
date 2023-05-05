@@ -117,6 +117,26 @@ Chip8::Chip8() : randGen(std::chrono::system_clock::now().time_since_epoch().cou
 
 }
 
+void Chip8::Table0(){
+	((*this).*(table0[opcode & 0x000Fu]))();
+}
+
+void Chip8::Table8(){
+	((*this).*(table8[opcode & 0x000Fu]))();
+}
+
+void Chip8::TableE(){
+	((*this).*(tableE[opcode & 0x000Fu]))();
+}
+
+void Chip8::TableF(){
+	((*this).*(tableF[opcode & 0x000Fu]))();
+}
+
+
+void OP_NULL(){}
+
+
 
 void Chip8::LoadROM(char const* filename) {
 	// Open the file as a stream of binary and move the file pointer to the end
