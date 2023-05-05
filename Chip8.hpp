@@ -46,6 +46,8 @@ public:
 	Chip8Func tableE[0xE +1];
 	Chip8Func tableF[0x65 +1];
 
+	// Fetch, Decode, Execute instruction
+	void Cycle();
 
 
 	// Instructions
