@@ -4,6 +4,11 @@
 
 #include <cstdint>
 #include <random>
+#include <iostream>
+#include <fstream>
+#include <chrono>
+#include <random>
+#include <cstring>
 
 const unsigned int VIDEO_WIDTH = 64;
 const unsigned int VIDEO_HEIGHT = 32;

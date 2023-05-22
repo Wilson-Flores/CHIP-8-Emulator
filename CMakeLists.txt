@@ -6,7 +6,7 @@ project ("CHIP-8-Emulator")
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
-add_executable(CHIP-8-Emulator "main.cpp" "Chip8.hpp" "Chip8.cpp")
+add_executable(CHIP-8-Emulator "main.cpp" "Chip8.hpp" "Chip8.cpp" "Platform.hpp" "Platform.cpp")
 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

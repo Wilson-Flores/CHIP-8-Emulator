@@ -1,8 +1,5 @@
 #include "Chip8.hpp"
-#include <fstream>
-#include <chrono>
-#include <random>
-#include <cstring>
+
 
 /*
 nnn or addr - A 12-bit value, the lowest 12 bits of the instruction
