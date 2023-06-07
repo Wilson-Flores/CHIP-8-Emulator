@@ -139,6 +139,7 @@ bool Platform::ProcessInput(uint8_t* keys){
                 break;
         }
     }
+    return quit;
 }
 
 

@@ -15,3 +15,4 @@ endif()
 
 # Link SDL2 library
 target_link_libraries(CHIP-8-Emulator ${SDL2_LIBRARIES})
+target_link_libraries(CHIP-8-Emulator GL)
