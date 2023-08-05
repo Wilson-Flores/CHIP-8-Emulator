@@ -1,4 +1,5 @@
 #include "Platform.hpp"
+#define GL_CLAMP_TO_EDGE 0x812F
 
 Platform::Platform(char const* title, int windowWidth, int windowHeight, int textureWidth, int textureHeight){
 
@@ -21,6 +22,8 @@ Platform::Platform(char const* title, int windowWidth, int windowHeight, int tex
 
     // set swap interval to enable VSync
     SDL_GL_SetSwapInterval(1);
+
+    //gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
 
 
     // generate new texture object and assigns it to the variable, '1' generate one texture object

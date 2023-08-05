@@ -10,12 +10,12 @@
 #include <random>
 #include <cstring>
 
-const unsigned int VIDEO_WIDTH = 64;
-const unsigned int VIDEO_HEIGHT = 32;
-const unsigned int REGISTER_COUNT = 16;
-const unsigned int MEMORY_SIZE = 4096;
-const unsigned int STACK_LEVELS = 16;
-const unsigned int KEY_COUNT = 16;
+constexpr size_t VIDEO_WIDTH = 64;
+constexpr size_t VIDEO_HEIGHT = 32;
+constexpr size_t REGISTER_COUNT = 16;
+constexpr size_t MEMORY_SIZE = 4096;
+constexpr size_t STACK_LEVELS = 16;
+constexpr size_t KEY_COUNT = 16;
 
 class Chip8 {
 public:
@@ -32,7 +32,7 @@ public:
 	uint16_t opcode; // encodes an operation and relevant data into a number that a machine can read.
 
 	std::default_random_engine randGen;
-	std::uniform_int_distribution<uint8_t> randByte;
+	std::uniform_int_distribution<unsigned short> randByte;
 
 	Chip8();
 	void LoadROM(char const* filename);
@@ -44,7 +44,7 @@ public:
 	void TableF();
 
 	// create new type 'Chip8Func' 
-	typedef void (Chip8::*Chip8Func)();
+	using Chip8Func = void(Chip8::*)();
 	Chip8Func table[0xF +1];
 	Chip8Func table0[0xE +1];
 	Chip8Func table8[0xE +1];

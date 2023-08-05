@@ -4,7 +4,10 @@
 
 #include <cstdint>
 #include <SDL.h>
+#include <windows.h>
 #include <GL/gl.h> // dir: '/usr/include/GL/'
+#include <gl/GLU.h>
+
 
 
 class Platform

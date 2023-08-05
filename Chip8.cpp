@@ -9,9 +9,9 @@ y - A 4-bit value, the upper 4 bits of the low byte of the instruction
 kk or byte - An 8-bit value, the lowest 8 bits of the instruction
 */
 
-const unsigned int START_ADDRESS = 0x200;
-const unsigned int FONTSET_SIZE = 80;
-const unsigned int FONTSET_START_ADDRESS = 0x50;
+constexpr size_t START_ADDRESS = 0x200;
+constexpr size_t FONTSET_SIZE = 80;
+constexpr size_t FONTSET_START_ADDRESS = 0x50;
 
 
 /*
@@ -23,7 +23,7 @@ This is an example of the character F:
 10000000
 */
 
-uint8_t fontset[FONTSET_SIZE] =
+const uint8_t fontset[FONTSET_SIZE] =
 {
 	0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
 	0x20, 0x60, 0x20, 0x20, 0x70, // 1
@@ -49,12 +49,13 @@ Chip8::Chip8() : randGen(std::chrono::system_clock::now().time_since_epoch().cou
 	pc = START_ADDRESS;
 
 	// Load fonts into memory
-	for (unsigned int i = 0; i < FONTSET_SIZE; ++i) {
-		memory[FONTSET_START_ADDRESS + i] = fontset[i];
+	for (unsigned int i = 0; i < FONTSET_SIZE; ++i)
+	{
+		this->memory[FONTSET_START_ADDRESS + i] = fontset[i];
 	}
 
 	// Initialize RNG
-	randByte = std::uniform_int_distribution<uint8_t>(0, 255U);
+	randByte = std::uniform_int_distribution<unsigned short>(0, 255U);
 
 	// Set up function pointer table
 	table[0x0] = &Chip8::Table0;
@@ -116,22 +117,22 @@ Chip8::Chip8() : randGen(std::chrono::system_clock::now().time_since_epoch().cou
 
 
 void Chip8::Table0(){
-	((*this).*(table0[opcode & 0x000Fu]))();
+	(this->*table0[opcode & 0x000Fu])();
 }
 
 
 void Chip8::Table8(){
-	((*this).*(table8[opcode & 0x000Fu]))();
+	(this->*table8[opcode & 0x000Fu])();
 }
 
 
 void Chip8::TableE(){
-	((*this).*(tableE[opcode & 0x000Fu]))();
+	(this->*tableE[opcode & 0x000Fu])();
 }
 
 
 void Chip8::TableF(){
-	((*this).*(tableF[opcode & 0x000Fu]))();
+	(this->*tableF[opcode & 0x000Fu])();
 }
 
 
@@ -146,7 +147,7 @@ void Chip8::Cycle(){
 	pc += 2;
 
 	// Decode and Execute
-	((*this).*(table[(opcode & 0xF000u) >> 12u]))();
+	(this->*table[(opcode & 0xF000u) >> 12u])();
 
 	// Decrement the delay timer if it's been set
 	if (delayTimer > 0){
@@ -414,7 +415,7 @@ void Chip8::OP_Cxkk(){
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
 	uint8_t byte = opcode & 0x00FFu;
 
-	registers[Vx] = randByte(randGen) & byte;
+	registers[Vx] = (randByte(randGen) % 256) & byte;
 }
 
 
@@ -596,8 +597,9 @@ void Chip8::OP_Fx55(){
 	// Store registers V0 thru Vx in memory starting at location I
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
 
-	for (uint8_t i = 0; i <= Vx; ++i){
-		memory[index + i] = registers[i];
+	for (uint8_t i = 0; i <= Vx; ++i)
+	{
+		this->memory[index + i] = this->registers[i];
 	}
 }
 
@@ -606,7 +608,8 @@ void Chip8::OP_Fx65(){
 	// Read registers V0 thru Vx from memory starting at location I
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
 
-	for (uint8_t i = 0; i <= Vx; ++i){
-		registers[i] = memory[index + i];
+	for (uint8_t i = 0; i <= Vx; ++i)
+	{
+		this->registers[i] = this->memory[index + i];
 	}
 }
