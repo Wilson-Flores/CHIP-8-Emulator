@@ -9,11 +9,6 @@ y - A 4-bit value, the upper 4 bits of the low byte of the instruction
 kk or byte - An 8-bit value, the lowest 8 bits of the instruction
 */
 
-constexpr size_t START_ADDRESS = 0x200;
-constexpr size_t FONTSET_SIZE = 80;
-constexpr size_t FONTSET_START_ADDRESS = 0x50;
-
-
 /*
 This is an example of the character F:
 11110000
@@ -23,7 +18,7 @@ This is an example of the character F:
 10000000
 */
 
-const uint8_t fontset[FONTSET_SIZE] =
+constexpr uint8_t fontset[FONTSET_SIZE] =
 {
 	0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
 	0x20, 0x60, 0x20, 0x20, 0x70, // 1
@@ -44,18 +39,18 @@ const uint8_t fontset[FONTSET_SIZE] =
 };
 
 
-Chip8::Chip8() : randGen(std::chrono::system_clock::now().time_since_epoch().count()) {
+Chip8::Chip8() {
 	// Initialize PC to 0x200
 	pc = START_ADDRESS;
 
 	// Load fonts into memory
 	for (unsigned int i = 0; i < FONTSET_SIZE; ++i)
 	{
-		this->memory[FONTSET_START_ADDRESS + i] = fontset[i];
+		memory[FONTSET_START_ADDRESS + i] = fontset[i];
 	}
 
 	// Initialize RNG
-	randByte = std::uniform_int_distribution<unsigned short>(0, 255U);
+	srand(time(NULL));
 
 	// Set up function pointer table
 	table[0x0] = &Chip8::Table0;
@@ -114,6 +109,7 @@ Chip8::Chip8() : randGen(std::chrono::system_clock::now().time_since_epoch().cou
 
 
 }
+Chip8::~Chip8() {}
 
 
 void Chip8::Table0(){
@@ -132,7 +128,7 @@ void Chip8::TableE(){
 
 
 void Chip8::TableF(){
-	(this->*tableF[opcode & 0x000Fu])();
+	(this->*tableF[opcode & 0x00FFu])();
 }
 
 
@@ -191,6 +187,7 @@ void Chip8::LoadROM(char const* filename) {
 void Chip8::OP_00E0() {
 	// set the entire video buffer to zeros.
 	memset(video, 0, sizeof(video));
+	drawFlag = true;
 }
 
 
@@ -415,7 +412,7 @@ void Chip8::OP_Cxkk(){
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
 	uint8_t byte = opcode & 0x00FFu;
 
-	registers[Vx] = (randByte(randGen) % 256) & byte;
+	registers[Vx] = (rand() % (0xFF + 1)) & byte;
 }
 
 
@@ -425,10 +422,11 @@ void Chip8::OP_Dxyn(){
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
 	uint8_t Vy = (opcode & 0x00F0u) >> 4u; 
 	uint8_t height = opcode & 0x000Fu;
+	uint8_t spriteByte{};
 
 	// Wrap if going beyond screen boundaries
-	uint8_t xPos = registers[Vx] & VIDEO_WIDTH;
-	uint8_t yPos = registers[Vy] & VIDEO_HEIGHT;
+	uint8_t xPos = registers[Vx];
+	uint8_t yPos = registers[Vy];
 
 	registers[0xF] = 0;
 
@@ -451,6 +449,7 @@ void Chip8::OP_Dxyn(){
 			}
 		}
 	}
+	drawFlag = true;
 }
 
 
@@ -572,7 +571,7 @@ void Chip8::OP_Fx29(){
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
 	uint8_t digit = registers[Vx];
 
-	index = FONTSET_START_ADDRESS + (5 * digit);
+	index = digit * 0x5;
 }
 
 void Chip8::OP_Fx33(){
@@ -599,7 +598,7 @@ void Chip8::OP_Fx55(){
 
 	for (uint8_t i = 0; i <= Vx; ++i)
 	{
-		this->memory[index + i] = this->registers[i];
+		memory[index + i] = registers[i];
 	}
 }
 
@@ -610,6 +609,6 @@ void Chip8::OP_Fx65(){
 
 	for (uint8_t i = 0; i <= Vx; ++i)
 	{
-		this->registers[i] = this->memory[index + i];
+		registers[i] = memory[index + i];
 	}
 }

@@ -4,11 +4,8 @@
 
 #include <cstdint>
 #include <random>
-#include <iostream>
 #include <fstream>
-#include <chrono>
 #include <random>
-#include <cstring>
 
 constexpr size_t VIDEO_WIDTH = 64;
 constexpr size_t VIDEO_HEIGHT = 32;
@@ -16,6 +13,10 @@ constexpr size_t REGISTER_COUNT = 16;
 constexpr size_t MEMORY_SIZE = 4096;
 constexpr size_t STACK_LEVELS = 16;
 constexpr size_t KEY_COUNT = 16;
+
+constexpr size_t START_ADDRESS = 0x200;
+constexpr size_t FONTSET_SIZE = 80;
+constexpr size_t FONTSET_START_ADDRESS = 0x50;
 
 class Chip8 {
 public:
@@ -31,10 +32,10 @@ public:
 	uint32_t video[VIDEO_WIDTH * VIDEO_HEIGHT]{}; // 64x32 Monochrome Display Memory
 	uint16_t opcode; // encodes an operation and relevant data into a number that a machine can read.
 
-	std::default_random_engine randGen;
-	std::uniform_int_distribution<unsigned short> randByte;
+	bool drawFlag;
 
 	Chip8();
+	~Chip8();
 	void LoadROM(char const* filename);
 
 	// function pointer tables with same first digits
