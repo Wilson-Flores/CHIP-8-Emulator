@@ -11,8 +11,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(SDL2 REQUIRED)
 include_directories(${SDL_INCLUDE_DIRS})
 
-
-add_executable(Chip8 "main.cpp" "Chip8.cpp" "Platform.cpp")
+set(SOURCE_FILES "src/main.cpp" "src/Chip8.cpp" "src/Platform.cpp")
+add_executable(Chip8 ${SOURCE_FILES})
 
 
 # Link SDL2 and OpenGL libraries
