@@ -19,5 +19,22 @@ My CHIP-8 emulator currently supports the following features:
 
 ## <span style="font-size: smaller;">Source</span>
 This is project is based on the Austin Morlan's tutorial on "Building A CHIP-8 Emulator [C++]."
+
 Link: https://austinmorlan.com/posts/chip8_emulator/#loading-a-rom
 
+
+## <span style="font-size: smaller;">Conclusion</span>
+I had a handful of issues with Austin Morlan's code. After doing some research on other people's CHIP8 emulator projects, JamesGriffin's CHIP-8-Emulator project gave me a lot of inspiration to re-writing my code. One of my main issues I had with my initial code was the window display. It would only show a black screen after running a CHIP8 rom file. I decided to remove OpenGL from my project and rework my Platform files to only use SDL2. 
+This was an interesting project to work on. It took me many months to understand what was going on under the hood of a CHIP8 emulator, for example the way bits are manipulated during the execution of many of the opcodes. Understanding how to use SDL2 was also another issue since I had no experience using the library in the past. 
+
+## <span style="font-size: smaller;">References</span>
+These links were very helpful in my journey to making this emulator.
+
+CHIP-8 Wikipedia
+- https://en.wikipedia.org/wiki/CHIP-8
+
+JamesGriffin's CHIP-8-Emulator
+- https://github.com/JamesGriffin/CHIP-8-Emulator
+
+Lazy Foo's Beginning Game Programming v2.0 (SDL2 Tutorial)
+- https://lazyfoo.net/tutorials/SDL/index.php#Hello%20SDL  
