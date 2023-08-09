@@ -9,7 +9,7 @@ int main (int argc, char** argv){
 
     if (argc != 2){
         // std::cerr is specificially intended for error reporting
-        std::cerr << "Usage: chip8 <ROM>\n";
+        std::cerr << "Usage: chip8 <ROM FILE DIR>\n";
 
         // std::exit is a function from <cstdlib> or stdlib.h
         // function takes an int param as its argument
